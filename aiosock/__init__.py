@@ -17,7 +17,6 @@ class aiosock:
         self.MAX_LEN = 2**(4*self.N_HEAD-1)-1
         self.MASK = 0x01<<(4*self.N_HEAD-1)
 
-        self.loop = asyncio.get_event_loop()
 
         rx, tx = socketpair()
         rx.setblocking(False)
@@ -30,6 +29,10 @@ class aiosock:
 
         self.callback_read = callback_read
 
+    @property
+    def loop(self):
+        ''''''
+        return asyncio.get_event_loop()
 
 
     def write(self, content: Any):

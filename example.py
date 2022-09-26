@@ -22,25 +22,30 @@ class IO_Process(Process):
         # display a message
         print('This is coming from another process')
         self.loop = asyncio.get_event_loop()
-        self.loop.call_later(self.sock_tx, F'This is IO Process. PID:{self.pid}.')
+        self.loop.call_later(3, self.sock_tx.write, F'[run] This is IO Process. PID:{self.pid}.')
         self.loop.run_forever()
 
-    # def set_sock(self, sock: aiosock):
-    #     ''''''
-    #     self.sock = sock
+    def set_sock(self, sock: aiosock):
+        ''''''
+        self.sock2 = sock
+
+    def on_read(self, obj: Any):
+        ''''''
+        print(f'[on_read] This is IO Process. PID: {self.pid}')
+        print(obj)
 
 def on_read(obj: Any):
     ''''''
-    print(f'This is Main Process. PID: {os.getpid() }')
+    print(f'[main] This is Main Process. PID: {os.getpid()}')
     print(obj)
-# io_process = Process(target=IO_Process, args=(write1,))
-# writer_process.start()
+    
 if __name__ == '__main__':
 
-    sock = aiosock(on_read)
-    iop = IO_Process(sock.tx)
+    sock1 = aiosock(on_read)
+    iop = IO_Process(sock1)
+    sock2 = aiosock(iop.on_read)
     # iop.set_sock(sock)
     iop.start()
-    sock.write('Test')
+    sock2.write(f'[main] sock2 write. {os.getpid()}')
     loop = asyncio.get_event_loop()
     loop.run_forever()
