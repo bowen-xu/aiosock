@@ -52,6 +52,4 @@ if __name__ == '__main__':
     sock1.init()
     iop.start()
     loop = asyncio.get_event_loop()
-    # loop.create_task(main(sock1))
     loop.run_until_complete(main(sock1))
-    # loop.run_forever()
