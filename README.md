@@ -2,7 +2,7 @@
 
 This package wraps the [`socket`](https://docs.python.org/3/library/socket.html) lib, so that it can be used as part of the non-blocking asyncio event loop. A goal scenario is multiprocess communication with the help of  coroutines, *i.e.*, combining [`multiprocessing`](https://docs.python.org/3/library/multiprocessing.html) and [`asyncio`](https://docs.python.org/3/library/asyncio.html). 
 
-For example, there are two process in a program, one is `Main_Process`, and the other is `IO_Process`. The two process are running with respective event loops. The `Main_Process` is asynchronizedly reading messages from `IO_Process`, and once the `IO_Process` sends something to the `Main_Process`, the latter will call a `callback` function or continue executing a coroutine from the previous break point.
+For example, there are two process in a program, one is `Main_Process`, and the other is `IO_Process`. The two processes are running with respective event loops. The `Main_Process` is asynchronizedly reading messages from `IO_Process`, and once the `IO_Process` sends something to the `Main_Process`, the latter will call a `callback` function or continue executing a coroutine from the previous break point.
 
 ## Quick Start
 
