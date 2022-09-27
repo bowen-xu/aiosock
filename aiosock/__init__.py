@@ -6,9 +6,9 @@ from socket import socketpair, socket
 from typing import Any, Callable, Coroutine, Iterable, Tuple
 from asyncio import BaseEventLoop, Event
 
-# from .task import create_immediate_task, call_immediately
 
 asyncio.set_event_loop(asyncio.SelectorEventLoop())
+
 
 def aiosockpair(n_head=4):
     ''''''
@@ -21,13 +21,14 @@ def aiosockpair(n_head=4):
     s2.setblocking(False)
 
     return AioSock(s1, N_HEAD), AioSock(s2, N_HEAD)
-        
+
 
 def create_immediate_task(loop: BaseEventLoop, func: Coroutine, *args):
     ''''''
     loop.create_task(func(*args))
     ready: deque = loop._ready
     ready.appendleft(ready.pop())
+
 
 class AioSock:
     def __init__(self, sock: socket, n_head) -> None:
@@ -55,9 +56,9 @@ class AioSock:
         ):
         ''''''
         self._event_read = Event()
-        self._event_read_incomplete = Event()
+        self._event_read_complete = Event()
 
-        self._event_read_incomplete.set()
+        self._event_read_complete.set()
 
         args = ()
         if callback_read is not None:
@@ -120,8 +121,8 @@ class AioSock:
                 self._event_read.set()
 
                 # wait data to be read asynchronizedly.
-                if self._event_read_incomplete.is_set():
-                    await self._event_read_incomplete.wait()
+                if not self._event_read_complete.is_set():
+                    await self._event_read_complete.wait()
                 data = bytearray()
             else:
                 data.extend(packet)
@@ -163,10 +164,15 @@ class AioSock:
     
     async def read(self) -> Any:
         ''''''
-        self._event_read_incomplete.clear()
+        # the reading process is not completed
+        self._event_read_complete.clear()
+        # nothing read
         if self.data_read is None:
             self._event_read.clear()
+            # wait until something is read
             await self._event_read.wait()
-        self._event_read_incomplete.clear()
+        # now the reading process is completed
+        self._event_read_complete.set()
+        # clear the cache
         obj, self.data_read = self.data_read, None
         return obj

@@ -16,7 +16,6 @@ class IO_Process(Process):
     def run(self):
         print(f'IO Process PID: {os.getpid()}')
         print('reset callback.')
-        # self.sock.reset_callback(self.on_read)
         self.sock.init(self.on_read)
         print('reset callback done.')
         self.loop = asyncio.get_event_loop()

@@ -26,17 +26,13 @@ class IO_Process(Process):
         print(obj)
         print(f'[io on_read] PID: {os.getpid()}')
 
+
     async def read(self):
         ''''''
         while True:
             obj = await self.sock.read()
             print(f'[io await read]{str(obj)}')
             print(f'[io await read] PID: {os.getpid()}')
-
-# def on_read(obj: Any, *args):
-#     ''''''
-#     print(obj)
-#     print(f'[main on_read] PID: {os.getpid()}')
 
 
 async def main(sock: AioSock):
@@ -46,7 +42,6 @@ async def main(sock: AioSock):
     obj = await sock.read()
     print(obj)
     print(f'[main await read] PID: {os.getpid()}')
-
 
 
 if __name__ == '__main__':    

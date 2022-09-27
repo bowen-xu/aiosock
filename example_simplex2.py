@@ -9,8 +9,8 @@ class IO_Process(Process):
     ''''''
     def __init__(self, sock: AioSock, group = None, name: 'str | None' = None, args: Iterable[Any] = (), kwargs: Mapping[str, Any] = {}, *, daemon: 'bool | None' = None) -> None:
         super().__init__(group, None, name, daemon=daemon)
-        # sock_rx.set_callback(self.on_read)
         self.sock = sock
+
 
     def run(self):
         print(f'IO Process PID: {os.getpid()}')
@@ -34,7 +34,6 @@ if __name__ == '__main__':
     print(f'Main Process PID: {os.getpid()}')
     sock1, sock2 = aiosockpair()
     sock1.init(on_read)
-    # sock = AioSock(on_read)
     iop = IO_Process(sock2)
     iop.start()
     loop = asyncio.get_event_loop()
