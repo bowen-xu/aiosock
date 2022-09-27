@@ -1,6 +1,6 @@
 from multiprocessing import Process
 import os
-from typing import Any, Callable, Iterable, Mapping
+from typing import Any, Iterable, Mapping
 from aiosock import AioSock, aiosockpair
 import asyncio
 
