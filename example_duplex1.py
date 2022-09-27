@@ -32,11 +32,6 @@ def on_read(obj: Any, *args):
     print(f'[main on_read] PID: {os.getpid()}')
 
 
-async def main(sock: AioSock):
-    ''''''
-
-
-
 if __name__ == '__main__':    
     print('IO Process Read/Write, Main Process Write/Read.')  
     print(f'Main Process PID: {os.getpid()}')
