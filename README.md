@@ -57,7 +57,7 @@ sock1.init((callback_print, 0), callback_writable)
 
 The defaut values of the callbacks are `None`.
 
-Seventh, use send any object you want, as long as the object is serializable.
+Seventh, send any object you want, as long as the object is serializable.
 ```Python
 sock2.send('Hello asyncio!')
 ```
