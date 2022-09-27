@@ -37,10 +37,10 @@ def callback_print(obj_recv: Any, num: int):
 sock1.init((callback_print, 0))
 ```
 
-Fifth, you may also use `await` to read something in a `async` function, rather than using a callback. For example
+Fifth, you may also use `await` to read something in an `async` function, rather than using a callback. For example
 
 ```Python
-async main():
+async def main():
     obj_recv = await sock1.read()
 ```
 Sixth, you are able to set callbacks for both read and write. the read callback is executed whenever something is received, and the write callback is executed when it is available to write. For example
