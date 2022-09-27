@@ -1,7 +1,7 @@
 from multiprocessing import Process
 import os
 from typing import Any, Callable, Iterable, Mapping
-from aiosock import AioSock, AioSockReader
+from aiosock import AioSock, aiosockpair
 import asyncio
 
 
@@ -32,8 +32,10 @@ def on_read(obj: Any):
 if __name__ == '__main__':    
     print('IO Process Write, Main Process Read.')  
     print(f'Main Process PID: {os.getpid()}')
-    sock = AioSock(on_read)
-    iop = IO_Process(sock)
+    sock1, sock2 = aiosockpair()
+    sock1.init(on_read)
+    # sock = AioSock(on_read)
+    iop = IO_Process(sock2)
     iop.start()
     loop = asyncio.get_event_loop()
     loop.run_forever()
