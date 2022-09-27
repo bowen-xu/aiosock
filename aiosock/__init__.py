@@ -65,7 +65,8 @@ class AioSock:
             # add callback for reading avalability
             if not isinstance(callback_read, Callable):
                 assert isinstance(callback_read, Iterable)
-                callback, args = callback_read
+                callback_read = tuple(callback_read)
+                callback, args = callback_read[0], callback_read[1:]
             else:
                 callback = callback_read
             self.callback_read = callback
@@ -78,7 +79,8 @@ class AioSock:
             # add callback for writing avalability
             if not isinstance(callback_write, Callable):
                 assert isinstance(callback_write, Iterable)
-                callback, args = callback_write
+                callback_write = tuple(callback_write)
+                callback, args = callback_write[0], callback_write[1:]
             else:
                 callback = callback_write
             self.callback_write = callback
