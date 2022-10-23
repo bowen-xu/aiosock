@@ -37,6 +37,7 @@ class AioSock:
         self.MASK: int = 0x01<<(4*self.N_HEAD-1)
 
         self.sock = sock
+        self.sock.setblocking(False)
 
         self.read_cache = bytearray()
 
