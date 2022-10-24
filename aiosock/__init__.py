@@ -88,6 +88,13 @@ class AioSock:
         self.loop.add_writer(self.sock, self.on_write_availabe, *args)
 
 
+    def close_socket(self):
+        self.sock.close()
+        try:
+            self.loop.remove_reader(self.sock)
+            self.loop.remove_writer(self.sock)
+        except: pass
+
     async def on_read_availabe(self, *args):
         '''
         Read all the bytes in the socket buffer, and convert them to objects.
@@ -101,18 +108,16 @@ class AioSock:
         while True:
             # get head
             try: packet = sock.recv(N_HEAD) # packet may be None if nothing to receive
-            except: packet = None
+            except BlockingIOError: packet = None
+            except ConnectionResetError:
+                self.close_socket()
+                break
+        
             if packet is None or len(packet) == 0:
                 if not is_obj_end: self.read_cache = data
                 else: self.read_cache = bytearray()
                 if packet == b'':
-                    sock.close()
-                    try:
-                        self.loop.remove_reader(sock)
-                        self.loop.remove_writer(sock)
-                    except: pass
-                    # self.loop.add_reader(self.sock, create_immediate_task, self.loop, self.on_read_availabe, *args)
-                    # self.loop.add_writer(self.sock, self.on_write_availabe, *args)
+                    self.close_socket()
                 break
             # now packet is not None
 
