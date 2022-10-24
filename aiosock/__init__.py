@@ -107,6 +107,12 @@ class AioSock:
                 else: self.read_cache = bytearray()
                 if packet == b'':
                     sock.close()
+                    try:
+                        self.loop.remove_reader(sock)
+                        self.loop.remove_writer(sock)
+                    except: pass
+                    # self.loop.add_reader(self.sock, create_immediate_task, self.loop, self.on_read_availabe, *args)
+                    # self.loop.add_writer(self.sock, self.on_write_availabe, *args)
                 break
             # now packet is not None
 
