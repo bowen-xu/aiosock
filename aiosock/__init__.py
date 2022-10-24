@@ -102,9 +102,11 @@ class AioSock:
             # get head
             try: packet = sock.recv(N_HEAD) # packet may be None if nothing to receive
             except: packet = None
-            if packet is None:
+            if packet is None or len(packet) == 0:
                 if not is_obj_end: self.read_cache = data
                 else: self.read_cache = bytearray()
+                if packet == b'':
+                    sock.close()
                 break
             # now packet is not None
 
