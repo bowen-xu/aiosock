@@ -15,7 +15,7 @@ def read_requirements(filename):
 setup(
     name='aiosock',
     python_requires='>=3.7.0', # python version
-    version= '1.0.5', # package version
+    version= '1.0.6', # package version
     description="Multiprocess communication sockets for asyncio",  # introduction, displayed on PyPI
     long_description=read_file('README.md'), # Readme
     long_description_content_type="text/markdown",  # markdown
@@ -40,7 +40,7 @@ setup(
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
-        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy'
     ],
