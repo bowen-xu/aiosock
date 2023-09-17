@@ -27,7 +27,8 @@ def create_immediate_task(loop: BaseEventLoop, func: Coroutine, *args):
     ''''''
     loop.create_task(func(*args))
     ready: deque = loop._ready
-    ready.appendleft(ready.pop())
+    if len(ready) > 0:
+        ready.appendleft(ready.pop())
 
 
 class AioSock:
